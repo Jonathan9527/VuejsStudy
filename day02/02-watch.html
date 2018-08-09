@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../vue-2.5.16.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="firstName">
+        <input type="text" v-model="lastName">
+        <!-- 这样写不好，这样是模板逻辑变得厚重，不易维护 -->
+        <div>全名：{{firstName + lastName}}</div>
+
+        <h1>computed</h1>
+        <div>全名：{{fullName}}</div>
+
+        <h1>watch</h1>
+        <div>全名：{{watchFullName}}</div>
+
+        <h1>---computed和watch区别---</h1>
+        <p>computed 多次调用只执行第一次的调用，其他调用取第一次的缓存<br>watch 每次调用都会执行一次里面的计算</p>
+        {{fullName}}{{fullName}}{{fullName}}{{fullName}} 
+        <br> {{watchFullName}}{{watchFullName}}{{watchFullName}}{{watchFullName}}
+    </div>
+
+o</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            firstName: '小',
+            lastName: '黑',
+            watchFullName: ''
+        },
+        computed: {
+            fullName() {
+                console.log(1111)
+                return this.firstName + this.lastName
+            }
+        },
+
+        // watch监听器用来监听data中数据的值，只要监听的数据一变化，它就能执行相应的函数
+        // 创建监听器通过watch属性，它是一个对象
+        // 这里面的函数名很特殊，它是你需要监听的data的名字，这个函数包含两个参数，一个是newVal,一个是oldVal
+        watch: {
+            firstName(newVal, oldVal) {
+                console.log(222)
+                // console.log(newVal, oldVal);
+                this.watchFullName = newVal + this.lastName
+            },
+            lastName(newVal, oldVal) {
+                this.watchFullName = this.firstName + newVal
+            }
+        }
+        // 开发时，能用computed实现的时候，就用computed实现
+        // 需要执行异步操作的时候，就要用到watch
+    })
+</script>
+
+</html>

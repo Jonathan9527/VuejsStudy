@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../vue-2.5.16.js"></script>
+    <script src="./vue-resource.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        // vue-resource会在vue的prototyp上绑定一个$http对象
+        mounted() {
+            this.$http.jsonp('http://www.liulongbin.top:3005/api/getprodlist')
+            .then(res=>{
+                // 它的数据放在body属性中
+              console.log(res.body);
+            },err=>{
+                console.log(err);
+            })
+        },
+    })
+</script>
+
+</html>
